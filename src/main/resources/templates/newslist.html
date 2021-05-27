@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="pl" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Lista wiadomości</title>
+</head>
+<body>
+<tr>
+  <div>
+    <form th:action="@{/searchnews}" th:field="*{question}" method="post">
+      <table th:align="left">
+        <tr>
+          <td><input th:type="text" th:field="*{question.searchText}" th:maxlength="20" th:width="20"/></td>
+          <td><input type="submit" value="search news" /></td>
+        </tr>
+      </table>
+    </form>
+  </div>
+</tr>
+
+<br>
+
+<tr>
+  <div th:align="left" >
+    <table width="100%"; th:border="0">
+      <tr align="center" th:bgcolor="grey">
+        <th>Source</th>
+        <th>Author</th>
+        <th>Title</th>
+        <th>Adres</th>
+        <th>Content</th>
+        <th>Save?</th>
+      </tr>
+      <tr th:if="${#lists.isEmpty(articles)}">
+        <td colspan="5">Brak wiadomości. Zmień kryteria wyszukiwania...!</td>
+      </tr>
+
+      <tr th:each="article, id : ${articles}" th:style="${id.odd}? 'background-color: lightyellow;':'background-color: lightgrey;'" >
+        <td th:align="center" th:text="${article.source.name}"></td>
+        <td th:align="center" th:text="${article.author}"></td>
+        <td th:align="center" th:text="${article.title}"></td>
+        <td><a th:text="${article.url}" th:href="${article.url}"></a></td>
+        <td th:text="${article.description}"></td>
+        <td><a th:href="@{'/savenews/' + ${id.index}}">Zapisz</a></td>
+
+      </tr>
+    </table>
+  </div>
+</tr>
+<br/>
+</body>
+</html>
